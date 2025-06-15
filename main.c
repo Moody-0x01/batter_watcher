@@ -35,7 +35,9 @@ void monitor_battery(int bat)
 		if (perc <= 15)
 		{
 			snprintf(buffer, (1024 * 2), "notify-send -u critical \"dawg, I\'m running out of power. plug me in [perc: %i]\"\n", perc);
-			system(buffer);
+			int status = system(buffer);
+			if (status != 0)
+				return ;
 			sleep(15);
 		}
 		sleep(5);
@@ -44,7 +46,6 @@ void monitor_battery(int bat)
 
 int main(int ac, char **av)
 {
-	// TODO: Make a while loop that checks the battery.
 	int i = 0;
 	char *program = *av;
 	int bat0 = -1;
